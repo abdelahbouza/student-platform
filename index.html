@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>كل ما يحتاجه الطالب</title>
+  <meta name="description" content="منصة تعليمية للطلاب — دروس، ملخصات، ملفات"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#060606; --s1:#101010; --s2:#161616; --s3:#1e1e1e; --s4:#272727;
+      --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.14);
+      --text:#f0f0f0; --muted:#a0a0a0; --faint:#555;
+      --green:#6ee7b7; --yellow:#fcd34d; --red:#fca5a5; --blue:#93c5fd; --purple:#c4b5fd;
+      --sp2:.5rem; --sp3:.75rem; --sp4:1rem; --sp5:1.25rem; --sp6:1.5rem;
+      --sp8:2rem; --sp10:2.5rem; --sp12:3rem; --sp16:4rem;
+      --r:.85rem; --rl:1.25rem; --rx:1.75rem;
+      --sh:0 8px 32px rgba(0,0,0,.5);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100dvh}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit;color:inherit}
+    textarea{resize:vertical;min-height:100px}
+    img{display:block;max-width:100%}
+
+    /* ===== LAYOUT ===== */
+    .wrap{width:min(calc(100% - 2rem),1200px);margin:auto}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+
+    /* ===== NAV ===== */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(6,6,6,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:.7rem;font-weight:900;font-size:1.1rem}
+    .logo{width:2.2rem;height:2.2rem;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-weight:900;font-size:1rem;flex-shrink:0}
+    .nav-links{display:flex;gap:.5rem;flex-wrap:wrap}
+    .nav-links button{background:none;border:none;cursor:pointer;color:var(--muted);padding:.5rem .85rem;border-radius:999px;transition:.2s}
+    .nav-links button:hover,.nav-links button.active{background:var(--s3);color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:.6rem}
+    .chip{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--border);background:var(--s2);font-size:.88rem;color:var(--muted)}
+    .role-badge{padding:.25rem .7rem;border-radius:999px;font-size:.78rem;font-weight:700}
+    .role-owner{background:rgba(196,181,253,.15);color:var(--purple);border:1px solid rgba(196,181,253,.25)}
+    .role-admin{background:rgba(252,211,77,.12);color:var(--yellow);border:1px solid rgba(252,211,77,.2)}
+    .role-assistant{background:rgba(147,197,253,.12);color:var(--blue);border:1px solid rgba(147,197,253,.2)}
+    .role-user{background:rgba(110,231,183,.1);color:var(--green);border:1px solid rgba(110,231,183,.2)}
+
+    /* ===== BUTTONS ===== */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.3rem;border-radius:999px;border:1px solid var(--border);background:var(--s2);cursor:pointer;transition:.18s;font-size:.95rem;white-space:nowrap;min-height:44px}
+    .btn:hover{transform:translateY(-2px);border-color:var(--border2)}
+    .btn-primary{background:#fff;color:#000;border-color:#fff;font-weight:800}
+    .btn-primary:hover{background:#e5e5e5;border-color:#e5e5e5}
+    .btn-danger{color:var(--red)}
+    .btn-success{color:var(--green)}
+    .btn-sm{padding:.5rem .9rem;font-size:.85rem;min-height:36px}
+
+    /* ===== PANELS ===== */
+    .panel{background:var(--s1);border:1px solid var(--border);border-radius:var(--rx);padding:var(--sp6);box-shadow:var(--sh)}
+    .card{background:var(--s2);border:1px solid var(--border);border-radius:var(--rl);padding:var(--sp5)}
+    .card:hover{border-color:var(--border2)}
+
+    /* ===== FORMS ===== */
+    .field{display:grid;gap:.4rem}
+    .field label{color:var(--muted);font-size:.9rem}
+    input,select,textarea{width:100%;padding:.85rem 1rem;border-radius:var(--r);border:1px solid var(--border);background:#0a0a0a;color:var(--text);transition:.18s}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--border2);background:#0d0d0d}
+    input[type="file"]{padding:.7rem}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    @media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+    .actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:var(--sp4)}
+
+    /* ===== NOTICES ===== */
+    .notice{padding:.9rem 1.1rem;border-radius:var(--r);margin-top:.85rem;font-size:.92rem}
+    .notice-info{background:rgba(147,197,253,.08);border:1px solid rgba(147,197,253,.2);color:#dbeafe}
+    .notice-success{background:rgba(110,231,183,.08);border:1px solid rgba(110,231,183,.2);color:#d1fae5}
+    .notice-error{background:rgba(252,165,165,.08);border:1px solid rgba(252,165,165,.2);color:#fee2e2}
+    .notice-warn{background:rgba(252,211,77,.08);border:1px solid rgba(252,211,77,.2);color:#fef3c7}
+
+    /* ===== STATUS ===== */
+    .status{display:inline-flex;padding:.3rem .75rem;border-radius:999px;font-size:.8rem;font-weight:700}
+    .status-pending{background:rgba(252,211,77,.12);color:var(--yellow)}
+    .status-approved{background:rgba(110,231,183,.12);color:var(--green)}
+    .status-rejected{background:rgba(252,165,165,.12);color:var(--red)}
+
+    /* ===== SECTIONS ===== */
+    .section{padding:var(--sp10) 0}
+    .section-head{margin-bottom:var(--sp8)}
+    .section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.4rem}
+    .section-head p{color:var(--muted);max-width:65ch}
+
+    /* ===== HERO ===== */
+    .hero{padding:var(--sp16) 0 var(--sp10)}
+    .hero h1{font-size:clamp(2.5rem,7vw,5.5rem);line-height:1.05;margin:var(--sp4) 0 var(--sp5)}
+    .hero .lead{font-size:1.15rem;color:var(--muted);max-width:58ch;margin-bottom:var(--sp8)}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:999px;border:1px solid var(--border);background:var(--s2);font-size:.88rem;color:var(--muted);margin-bottom:.5rem}
+
+    /* ===== STATS ===== */
+    .stats{display:flex;gap:var(--sp8);flex-wrap:wrap;margin-top:var(--sp6)}
+    .stat-item h3{font-size:2rem;font-weight:900}
+    .stat-item p{color:var(--muted);font-size:.9rem}
+
+    /* ===== TABLE ===== */
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table{width:100%;border-collapse:collapse;min-width:640px}
+    th,td{padding:.9rem 1rem;border-bottom:1px solid var(--border);text-align:right;vertical-align:middle}
+    th{color:var(--faint);font-size:.85rem;font-weight:700;background:var(--s1)}
+    td{font-size:.92rem}
+    tr:last-child td{border-bottom:none}
+
+    /* ===== TABS ===== */
+    .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:var(--sp6)}
+    .tab{padding:.6rem 1.2rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);transition:.18s;font-size:.9rem}
+    .tab.active,.tab:hover{background:var(--s3);border-color:var(--border2);color:var(--text)}
+
+    /* ===== PROGRESS ===== */
+    .progress-bar{height:6px;background:var(--s4);border-radius:999px;overflow:hidden;margin-top:.5rem}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#6ee7b7,#93c5fd);border-radius:999px;transition:width .4s ease}
+
+    /* ===== EMPTY ===== */
+    .empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:var(--sp16) var(--sp8);color:var(--muted)}
+    .empty svg{width:3rem;height:3rem;margin-bottom:var(--sp4);opacity:.3}
+    .empty h3{color:var(--text);margin-bottom:.4rem}
+
+    /* ===== PAGES ===== */
+    .page{display:none}
+    .page.active{display:block}
+
+    /* ===== MODAL ===== */
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;display:none}
+    .modal-bg.open{display:flex}
+    .modal{background:var(--s1);border:1px solid var(--border);border-radius:var(--rx);padding:var(--sp8);width:min(560px,100%);max-height:90dvh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.7)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp6)}
+    .modal-head h3{font-size:1.3rem}
+
+    /* ===== UPLOAD ZONE ===== */
+    .upload-zone{border:2px dashed var(--border);border-radius:var(--rl);padding:var(--sp10);text-align:center;cursor:pointer;transition:.2s;position:relative}
+    .upload-zone:hover,.upload-zone.drag{border-color:var(--border2);background:var(--s3)}
+    .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .upload-zone svg{width:2.5rem;height:2.5rem;margin:0 auto var(--sp3);opacity:.4}
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--s4);border-radius:3px}
+
+    /* ===== FOOTER ===== */
+    footer{border-top:1px solid var(--border);padding:var(--sp8) 0;color:var(--faint);font-size:.88rem;text-align:center;margin-top:var(--sp12)}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#" onclick="showPage('home')">
+      <div class="logo">ك</div>
+      <span>كل ما يحتاجه الطالب</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <button onclick="showPage('home')" class="active" data-page="home">الرئيسية</button>
+      <button onclick="showPage('lessons')" data-page="lessons">الدروس</button>
+      <button onclick="showPage('submit')" data-page="submit" id="navSubmit" style="display:none">رفع درس</button>
+      <button onclick="showPage('admin')" data-page="admin" id="navAdmin" style="display:none">الإدارة</button>
+      <button onclick="showPage('my-lessons')" data-page="my-lessons" id="navMyLessons" style="display:none">دروسي</button>
+    </div>
+    <div class="nav-right" id="navRight">
+      <span class="chip" id="authChip">جاري التحقق...</span>
+      <button class="btn btn-sm" id="logoutBtn" style="display:none" onclick="doLogout()">خروج</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ PAGE: HOME ============ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="wrap">
+      <span class="hero-badge">🎓 منصة تعليمية مجانية</span>
+      <h1>كل ما يحتاجه<br>الطالب</h1>
+      <p class="lead">دروس، ملخصات، وملفات يرفعها الطلاب لبعضهم. كل محتوى يمر بمراجعة قبل النشر لضمان الجودة.</p>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="showPage('lessons')">تصفح الدروس</button>
+        <button class="btn" onclick="showPage('auth')" id="heroAuthBtn">تسجيل الدخول</button>
+      </div>
+      <div class="stats" id="homeStats">
+        <div class="stat-item"><h3 id="statLessons">0</h3><p>درس منشور</p></div>
+        <div class="stat-item"><h3 id="statPending">0</h3><p>قيد المراجعة</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid3">
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:.7rem">📤</div>
+          <h3>ارفع درسك</h3>
+          <p style="color:var(--muted);margin-top:.4rem;font-size:.93rem">ارفع ملخصاتك وملفاتك مجاناً وساعد زملاءك في الدراسة.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:.7rem">✅</div>
+          <h3>مراجعة الجودة</h3>
+          <p style="color:var(--muted);margin-top:.4rem;font-size:.93rem">كل درس يمر عبر فريق المراجعة قبل نشره للطلاب.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:.7rem">📚</div>
+          <h3>تعلّم مجاناً</h3>
+          <p style="color:var(--muted);margin-top:.4rem;font-size:.93rem">استعرض مئات الدروس والملخصات في مختلف المواد.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PAGE: AUTH ============ -->
+<div class="page" id="page-auth">
+  <section class="section">
+    <div class="wrap" style="max-width:480px">
+      <div class="panel">
+        <div class="tabs">
+          <button class="tab active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+          <button class="tab" id="tabRegister" onclick="switchAuthTab('register')">إنشاء حساب</button>
+        </div>
+        <div id="loginForm">
+          <div style="display:grid;gap:.8rem">
+            <div class="field"><label>البريد الإلكتروني</label><input id="loginEmail" type="email" placeholder="student@example.com"/></div>
+            <div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" placeholder="••••••••"/></div>
+          </div>
+          <div class="actions"><button class="btn btn-primary" onclick="doLogin()">دخول</button></div>
+        </div>
+        <div id="registerForm" style="display:none">
+          <div style="display:grid;gap:.8rem">
+            <div class="field"><label>الاسم الكامل</label><input id="regName" type="text" placeholder="الاسم الكامل"/></div>
+            <div class="field"><label>البريد الإلكتروني</label><input id="regEmail" type="email" placeholder="student@example.com"/></div>
+            <div class="field"><label>كلمة المرور</label><input id="regPassword" type="password" placeholder="••••••••"/></div>
+          </div>
+          <div class="actions"><button class="btn btn-primary" onclick="doRegister()">إنشاء حساب</button></div>
+        </div>
+        <div id="authNotice"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PAGE: LESSONS ============ -->
+<div class="page" id="page-lessons">
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>الدروس المنشورة</h2>
+        <p>جميع الدروس هنا مراجعة ومعتمدة من فريق المنصة.</p>
+      </div>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:var(--sp6)">
+        <select id="filterSubject" style="width:auto;padding:.6rem 1rem" onchange="filterLessons()">
+          <option value="">كل المواد</option>
+          <option>إعلام آلي</option>
+          <option>رياضيات</option>
+          <option>فيزياء</option>
+          <option>إنجليزية</option>
+          <option>عربية</option>
+          <option>أخرى</option>
+        </select>
+        <select id="filterType" style="width:auto;padding:.6rem 1rem" onchange="filterLessons()">
+          <option value="">كل الأنواع</option>
+          <option>PDF</option>
+          <option>Résumé</option>
+          <option>TD</option>
+          <option>Exam</option>
+          <option>Video</option>
+        </select>
+      </div>
+      <div class="grid3" id="lessonsGrid">
+        <div class="empty" style="grid-column:1/-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+          <h3>جاري التحميل...</h3>
+          <p>يتم جلب الدروس من قاعدة البيانات</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PAGE: SUBMIT ============ -->
+<div class="page" id="page-submit">
+  <section class="section">
+    <div class="wrap" style="max-width:680px">
+      <div class="panel">
+        <div class="section-head">
+          <h2>رفع درس جديد</h2>
+          <p>الملف سيُرفع إلى Cloudinary، وبياناته تُحفظ في Firestore بحالة <span class="status status-pending">قيد الانتظار</span></p>
+        </div>
+        <form id="submitForm" onsubmit="submitLesson(event)">
+          <div class="form-grid">
+            <div class="field"><label>عنوان الدرس *</label><input id="sTitle" required placeholder="مثال: ملخص البنى المنفصلة"/></div>
+            <div class="field"><label>المادة *</label>
+              <select id="sSubject" required>
+                <option value="">اختر مادة</option>
+                <option>إعلام آلي</option>
+                <option>رياضيات</option>
+                <option>فيزياء</option>
+                <option>إنجليزية</option>
+                <option>عربية</option>
+                <option>أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label>النوع *</label>
+              <select id="sType" required>
+                <option value="">اختر النوع</option>
+                <option>PDF</option>
+                <option>Résumé</option>
+                <option>TD</option>
+                <option>Exam</option>
+                <option>Video</option>
+              </select>
+            </div>
+            <div class="field"><label>السعر</label><input id="sPrice" placeholder="مجاني أو 300 DA"/></div>
+          </div>
+          <div class="field" style="margin-top:.85rem"><label>الوصف *</label><textarea id="sDesc" required placeholder="اشرح محتوى الدرس باختصار..."></textarea></div>
+          <div class="field" style="margin-top:.85rem">
+            <label>ملف الدرس *</label>
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" id="sFile" accept=".pdf,.png,.jpg,.jpeg,.zip" required onchange="onFileSelected(this)"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+              <p id="uploadLabel" style="color:var(--muted)">اسحب الملف هنا أو اضغط للاختيار</p>
+              <p style="color:var(--faint);font-size:.82rem;margin-top:.3rem">PDF, صور, ZIP — بحد أقصى 50MB</p>
+            </div>
+          </div>
+          <div class="progress-bar" id="uploadProgress" style="display:none"><div class="progress-fill" id="uploadFill" style="width:0%"></div></div>
+          <div class="actions">
+            <button class="btn btn-primary" type="submit" id="submitBtn">إرسال للمراجعة</button>
+            <button class="btn" type="reset" onclick="document.getElementById('uploadLabel').textContent='اسحب الملف هنا أو اضغط للاختيار'">مسح</button>
+          </div>
+          <div id="submitNotice"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PAGE: MY LESSONS ============ -->
+<div class="page" id="page-my-lessons">
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2>دروسي</h2><p>جميع الدروس التي رفعتها أنت.</p></div>
+      <div class="grid3" id="myLessonsGrid">
+        <div class="empty" style="grid-column:1/-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+          <h3>لم ترفع أي درس بعد</h3>
+          <p>ارفع أول درس وساعد زملاءك</p>
+          <button class="btn btn-primary" style="margin-top:1rem" onclick="showPage('submit')">رفع درس</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ PAGE: ADMIN ============ -->
+<div class="page" id="page-admin">
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>لوحة الإدارة</h2>
+        <p>راجع الدروس المرفوعة وافعل بها ما يلزم.</p>
+      </div>
+      <div class="tabs" id="adminTabs">
+        <button class="tab active" onclick="filterAdmin('all',this)">الكل</button>
+        <button class="tab" onclick="filterAdmin('pending',this)">قيد الانتظار</button>
+        <button class="tab" onclick="filterAdmin('approved',this)">مقبول</button>
+        <button class="tab" onclick="filterAdmin('rejected',this)">مرفوض</button>
+      </div>
+      <div class="panel" style="padding:0">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>العنوان</th>
+                <th>المادة</th>
+                <th>النوع</th>
+                <th>الرافع</th>
+                <th>الحالة</th>
+                <th>ملف</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="adminTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LESSON MODAL -->
+<div class="modal-bg" id="lessonModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">عنوان الدرس</h3>
+      <button class="btn btn-sm" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">كل ما يحتاجه الطالب &mdash; Firebase + Cloudinary Starter &copy; 2026</div>
+</footer>
+
+<!-- ============ FIREBASE SDK ============ -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, onAuthStateChanged, updateProfile
+  } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js';
+  import {
+    getFirestore, collection, addDoc, query, where, orderBy,
+    onSnapshot, updateDoc, doc, serverTimestamp, getCountFromServer
+  } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+
+  // ============================================================
+  // ⚠️  ضع هنا بيانات مشروعك من Firebase Console
+  // ============================================================
+  const firebaseConfig = {
+    apiKey:            'YOUR_API_KEY',
+    authDomain:        'YOUR_PROJECT.firebaseapp.com',
+    projectId:         'YOUR_PROJECT_ID',
+    storageBucket:     'YOUR_PROJECT.appspot.com',
+    messagingSenderId: 'YOUR_SENDER_ID',
+    appId:             'YOUR_APP_ID'
+  };
+  // ============================================================
+  // ⚠️  بيانات Cloudinary
+  // ============================================================
+  const CLOUDINARY_CLOUD = 'dd3zuidqz';
+  const CLOUDINARY_PRESET = 'student-platform';
+  // ============================================================
+
+  const CONFIGURED = !Object.values(firebaseConfig).some(v => v.startsWith('YOUR_'));
+
+  let app, auth, db;
+  let currentUser = null;
+  let userRoles = [];
+  let allLessons = [];
+  let adminFilter = 'all';
+
+  // ---- helpers ----
+  window.showNotice = function(elId, msg, type='info'){
+    const el = document.getElementById(elId);
+    if(!el) return;
+    el.innerHTML = `<div class="notice notice-${type}">${msg}</div>`;
+  };
+
+  function hasRole(r){ return userRoles.includes(r); }
+  function canModerate(){ return hasRole('owner')||hasRole('admin')||hasRole('assistant'); }
+
+  function updateNavForUser(user, claims){
+    const chip = document.getElementById('authChip');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const heroAuthBtn = document.getElementById('heroAuthBtn');
+    const navSubmit = document.getElementById('navSubmit');
+    const navAdmin = document.getElementById('navAdmin');
+    const navMyLessons = document.getElementById('navMyLessons');
+
+    if(user){
+      const roles = claims?.roles || [];
+      userRoles = roles;
+      let badge = '';
+      if(roles.includes('owner')) badge = `<span class="role-badge role-owner">مالك</span>`;
+      else if(roles.includes('admin')) badge = `<span class="role-badge role-admin">مدير</span>`;
+      else if(roles.includes('assistant')) badge = `<span class="role-badge role-assistant">مساعد</span>`;
+      else badge = `<span class="role-badge role-user">طالب</span>`;
+
+      chip.innerHTML = `${badge} <span style="color:var(--muted);font-size:.82rem">${user.email}</span>`;
+      logoutBtn.style.display = '';
+      heroAuthBtn.style.display = 'none';
+      navSubmit.style.display = '';
+      navMyLessons.style.display = '';
+      if(canModerate()) navAdmin.style.display = '';
+      else navAdmin.style.display = 'none';
+    } else {
+      userRoles = [];
+      chip.innerHTML = `<span style="color:var(--muted)">غير مسجل الدخول</span>`;
+      logoutBtn.style.display = 'none';
+      heroAuthBtn.style.display = '';
+      navSubmit.style.display = 'none';
+      navAdmin.style.display = 'none';
+      navMyLessons.style.display = 'none';
+    }
+  }
+
+  // ---- render lessons grid ----
+  function renderGrid(elId, lessons){
+    const grid = document.getElementById(elId);
+    if(!grid) return;
+    if(!lessons.length){
+      grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+        <h3>لا توجد دروس</h3><p>لا توجد دروس مطابقة للفلتر الحالي.</p>
+      </div>`;
+      return;
+    }
+    grid.innerHTML = lessons.map(l => `
+      <article class="card" style="cursor:pointer" onclick="openLesson('${l.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem">
+          <span style="font-size:.78rem;padding:.25rem .6rem;border-radius:999px;background:var(--s3);color:var(--muted)">${l.type||'FILE'}</span>
+          ${l.status?`<span class="status status-${l.status}">${{pending:'انتظار',approved:'منشور',rejected:'مرفوض'}[l.status]||l.status}</span>`:''}
+        </div>
+        <h3 style="font-size:1rem;margin:.4rem 0">${l.title||''}</h3>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:.7rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${l.description||''}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--faint)">
+          <span>${l.subject||''}</span>
+          <span>${l.price||'مجاني'}</span>
+        </div>
+      </article>`).join('');
+  }
+
+  window.openLesson = function(id){
+    const l = allLessons.find(x=>x.id===id);
+    if(!l) return;
+    document.getElementById('modalTitle').textContent = l.title||'';
+    document.getElementById('modalBody').innerHTML = `
+      <div style="display:grid;gap:.8rem">
+        <p style="color:var(--muted)">${l.description||''}</p>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <span class="status status-${l.status||'pending'}">${{pending:'قيد الانتظار',approved:'منشور',rejected:'مرفوض'}[l.status]||l.status}</span>
+          <span style="font-size:.82rem;color:var(--muted)">${l.subject||''} — ${l.type||''} — ${l.price||'مجاني'}</span>
+        </div>
+        ${l.fileUrl?`<a href="${l.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">فتح الملف / تحميله</a>`:`<p style="color:var(--faint)">لا يوجد ملف مرفق.</p>`}
+      </div>`;
+    document.getElementById('lessonModal').classList.add('open');
+  };
+  window.closeModal = function(){
+    document.getElementById('lessonModal').classList.remove('open');
+  };
+
+  // ---- admin table ----
+  function renderAdminTable(lessons){
+    const tbody = document.getElementById('adminTable');
+    if(!tbody) return;
+    const filtered = adminFilter==='all' ? lessons : lessons.filter(l=>l.status===adminFilter);
+    if(!filtered.length){
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--faint);padding:2rem">لا توجد دروس</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = filtered.map(l=>`
+      <tr>
+        <td><strong>${l.title||''}</strong><br><span style="color:var(--faint);font-size:.8rem">${l.description?.substring(0,60)||''}...</span></td>
+        <td>${l.subject||''}</td>
+        <td>${l.type||''}</td>
+        <td style="font-size:.82rem;color:var(--muted)">${l.ownerEmail||''}</td>
+        <td><span class="status status-${l.status||'pending'}">${{pending:'انتظار',approved:'مقبول',rejected:'مرفوض'}[l.status]||l.status}</span></td>
+        <td>${l.fileUrl?`<a href="${l.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm">فتح</a>`:'—'}</td>
+        <td>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+            ${l.status!=='approved'?`<button class="btn btn-sm btn-success" onclick="changeStatus('${l.id}','approved')">قبول</button>`:''}
+            ${l.status!=='rejected'?`<button class="btn btn-sm btn-danger" onclick="changeStatus('${l.id}','rejected')">رفض</button>`:''}
+            ${l.status!=='pending'?`<button class="btn btn-sm" onclick="changeStatus('${l.id}','pending')">إعادة</button>`:''}
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+
+  window.changeStatus = async function(id, status){
+    if(!db) return alert('Firebase غير متصل.');
+    try {
+      await updateDoc(doc(db,'lessons',id),{status, reviewedAt: serverTimestamp(), reviewedBy: currentUser?.email||''});
+    } catch(e){ alert('فشل التحديث: '+e.message); }
+  };
+
+  window.filterAdmin = function(f, btn){
+    adminFilter = f;
+    document.querySelectorAll('#adminTabs .tab').forEach(t=>t.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    renderAdminTable(allLessons);
+  };
+
+  window.filterLessons = function(){
+    const subj = document.getElementById('filterSubject')?.value;
+    const type = document.getElementById('filterType')?.value;
+    const approved = allLessons.filter(l=>l.status==='approved');
+    const filtered = approved.filter(l=>{
+      if(subj && l.subject!==subj) return false;
+      if(type && l.type!==type) return false;
+      return true;
+    });
+    renderGrid('lessonsGrid', filtered);
+  };
+
+  // ---- Cloudinary upload ----
+  async function uploadToCloudinary(file, onProgress){
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', CLOUDINARY_PRESET);
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.upload.onprogress = e => { if(e.lengthComputable) onProgress(Math.round(e.loaded/e.total*100)); };
+      xhr.onload = () => {
+        if(xhr.status===200){
+          const data = JSON.parse(xhr.responseText);
+          resolve(data.secure_url);
+        } else {
+          reject(new Error('فشل رفع الملف إلى Cloudinary: '+xhr.responseText));
+        }
+      };
+      xhr.onerror = () => reject(new Error('خطأ في الشبكة أثناء رفع الملف.'));
+      xhr.send(fd);
+    });
+  }
+
+  // ---- submit lesson ----
+  window.submitLesson = async function(e){
+    e.preventDefault();
+    if(!CONFIGURED){ showNotice('submitNotice','⚠️ يجب إضافة إعدادات Firebase أولاً.','warn'); return; }
+    if(!currentUser){ showNotice('submitNotice','يجب تسجيل الدخول أولاً.','error'); return; }
+
+    const title = document.getElementById('sTitle').value.trim();
+    const subject = document.getElementById('sSubject').value;
+    const type = document.getElementById('sType').value;
+    const price = document.getElementById('sPrice').value.trim()||'مجاني';
+    const desc = document.getElementById('sDesc').value.trim();
+    const file = document.getElementById('sFile').files[0];
+
+    if(!file){ showNotice('submitNotice','الرجاء اختيار ملف.','error'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    const progress = document.getElementById('uploadProgress');
+    const fill = document.getElementById('uploadFill');
+    btn.disabled = true;
+    btn.textContent = 'جاري الرفع...';
+    progress.style.display = '';
+    showNotice('submitNotice','جاري رفع الملف...','info');
+
+    try {
+      const fileUrl = await uploadToCloudinary(file, pct => {
+        fill.style.width = pct+'%';
+        showNotice('submitNotice',`جاري الرفع... ${pct}%`,'info');
+      });
+
+      await addDoc(collection(db,'lessons'),{
+        title, subject, type, price, description: desc,
+        fileUrl, fileName: file.name,
+        ownerId: currentUser.uid,
+        ownerEmail: currentUser.email,
+        ownerName: currentUser.displayName||'',
+        status: 'pending',
+        createdAt: serverTimestamp()
+      });
+
+      document.getElementById('submitForm').reset();
+      document.getElementById('uploadLabel').textContent='اسحب الملف هنا أو اضغط للاختيار';
+      progress.style.display = 'none';
+      fill.style.width = '0%';
+      showNotice('submitNotice','✅ تم إرسال الدرس للمراجعة بنجاح! سيظهر في قسم "الدروس" بعد الموافقة.','success');
+    } catch(err){
+      showNotice('submitNotice','❌ '+err.message,'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'إرسال للمراجعة';
+    }
+  };
+
+  window.onFileSelected = function(input){
+    if(input.files[0]){
+      document.getElementById('uploadLabel').textContent = `📎 ${input.files[0].name}`;
+    }
+  };
+
+  // ---- auth ----
+  window.switchAuthTab = function(tab){
+    document.getElementById('loginForm').style.display = tab==='login'?'':'none';
+    document.getElementById('registerForm').style.display = tab==='register'?'':'none';
+    document.getElementById('tabLogin').classList.toggle('active',tab==='login');
+    document.getElementById('tabRegister').classList.toggle('active',tab==='register');
+  };
+
+  window.doLogin = async function(){
+    if(!CONFIGURED){ showNotice('authNotice','أضف إعدادات Firebase أولاً.','warn'); return; }
+    const email = document.getElementById('loginEmail').value.trim();
+    const pw = document.getElementById('loginPassword').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, pw);
+      showNotice('authNotice','✅ تم تسجيل الدخول!','success');
+      setTimeout(()=>showPage('home'),800);
+    } catch(e){ showNotice('authNotice','❌ '+e.message,'error'); }
+  };
+
+  window.doRegister = async function(){
+    if(!CONFIGURED){ showNotice('authNotice','أضف إعدادات Firebase أولاً.','warn'); return; }
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pw = document.getElementById('regPassword').value;
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pw);
+      if(name) await updateProfile(cred.user,{displayName:name});
+      showNotice('authNotice','✅ تم إنشاء حسابك! يمكنك الآن رفع الدروس.','success');
+      setTimeout(()=>showPage('home'),800);
+    } catch(e){ showNotice('authNotice','❌ '+e.message,'error'); }
+  };
+
+  window.doLogout = async function(){
+    if(!auth) return;
+    await signOut(auth);
+    showPage('home');
+  };
+
+  // ---- init ----
+  function init(){
+    if(!CONFIGURED){
+      showConfigWarning();
+      updateNavForUser(null,null);
+      return;
+    }
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+
+    onAuthStateChanged(auth, async user => {
+      currentUser = user;
+      let claims = null;
+      if(user){
+        const token = await user.getIdTokenResult();
+        claims = token.claims;
+      }
+      updateNavForUser(user, claims);
+
+      // listen lessons
+      const q = query(collection(db,'lessons'), orderBy('createdAt','desc'));
+      onSnapshot(q, snap => {
+        allLessons = snap.docs.map(d=>({id:d.id,...d.data()}));
+        filterLessons();
+        renderAdminTable(allLessons);
+        // my lessons
+        if(currentUser){
+          const mine = allLessons.filter(l=>l.ownerId===currentUser.uid);
+          renderGrid('myLessonsGrid', mine);
+        }
+        // stats
+        const approved = allLessons.filter(l=>l.status==='approved').length;
+        const pending = allLessons.filter(l=>l.status==='pending').length;
+        document.getElementById('statLessons').textContent = approved;
+        document.getElementById('statPending').textContent = pending;
+      });
+    });
+  }
+
+  function showConfigWarning(){
+    document.querySelectorAll('.page').forEach(p=>{
+      const w = document.createElement('div');
+      w.className='notice notice-warn';
+      w.style.cssText='margin:1rem 1.5rem;max-width:700px';
+      w.innerHTML=`⚠️ <strong>الموقع غير مرتبط بعد بـ Firebase.</strong> افتح ملف HTML وضع بيانات <code>firebaseConfig</code> الصحيحة من Firebase Console.`;
+    });
+    const hero = document.querySelector('.hero .wrap');
+    if(hero){
+      const w = document.createElement('div');
+      w.className='notice notice-warn';
+      w.style.marginTop='1.5rem';
+      w.innerHTML=`⚠️ <strong>وضع التجربة:</strong> أضف <code>firebaseConfig</code> من Firebase Console لتفعيل تسجيل الدخول والدروس الحقيقية.`;
+      hero.appendChild(w);
+    }
+  }
+
+  init();
+</script>
+
+<script>
+  // ---- page navigation ----
+  window.showPage = function(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    const el = document.getElementById('page-'+id);
+    if(el) el.classList.add('active');
+    document.querySelectorAll('.nav-links button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.page===id);
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  // close modal on bg click
+  document.getElementById('lessonModal').addEventListener('click', function(e){
+    if(e.target===this) window.closeModal();
+  });
+
+  // drag drop on upload zone
+  const zone = document.getElementById('uploadZone');
+  if(zone){
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag')});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+    zone.addEventListener('drop',e=>{
+      e.preventDefault();zone.classList.remove('drag');
+      const f = e.dataTransfer.files[0];
+      if(f){
+        document.getElementById('sFile').files = e.dataTransfer.files;
+        document.getElementById('uploadLabel').textContent=`📎 ${f.name}`;
+      }
+    });
+  }
+</script>
+</body>
+</html>
